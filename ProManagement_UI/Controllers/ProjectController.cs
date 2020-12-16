@@ -47,21 +47,22 @@ namespace ProManagement_UI.Controllers
         {
             return Json(bll.GetProject_emp(), JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult fileUpLoad()
-        //{
-        //    HttpPostedFileBase Postfile = Request.Files[0];
+        public ActionResult fileUpLoad()
+        {
+            HttpPostedFileBase Postfile = Request.Files[0];
 
-        //    string Pathfile = "";
-        //    if (Postfile.ContentLength > 0)
-        //    {
-        //        string fileName = Postfile.FileName;
-        //        string extName = Path.GetFileName(fileName);
-        //        string FullfileName = Guid.NewGuid().ToString() + extName;
-        //        string NewName = Path.Combine(Server.MapPath(""),FullfileName);
-        //        Postfile.SaveAs(NewName);
-        //        Pathfile = "";
-        //    }
-        //}
+            string Pathfile = "";
+            if (Postfile.ContentLength > 0)
+            {
+                string fileName = Postfile.FileName;
+                string extName = Path.GetFileName(fileName);
+                string FullfileName = Guid.NewGuid().ToString() + extName;
+                string NewName = Path.Combine(Server.MapPath("~/file/"), FullfileName);
+                Postfile.SaveAs(NewName);
+                Pathfile = "/file/"+FullfileName;
+            }
+            return Content(Pathfile);
+        }
         public int PostProject(project_list P)
         {
             return bll.PostProject(P);
