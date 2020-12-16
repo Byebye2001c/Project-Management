@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" />
+
+    <style type="text/css">
+        #color {
+            width: 300px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <select name="" id="color" multiple="multiple">
+
+        <option value="">请选择颜色</option>
+
+        <option value="red">红色</option>
+
+        <option value="green">绿色</option>
+
+        <option value="blue">蓝色</option>
+
+        <option value="yellow">黄色</option>
+
+    </select>
+
+</body>
+</html>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript">
+    //初始化select2
+    $("#color").select2();
+</script>

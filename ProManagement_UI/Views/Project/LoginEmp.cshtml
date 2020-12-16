@@ -9,7 +9,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>LoginEmp</title>
-    <link rel="stylesheet" type="text/css" href="slider/verify.css">
+    <script src="~/Views/Verify/js/verify.min.js"></script>
+    <script src="~/Views/Verify/js/jquery.min.js"></script>
+    <link href="~/Views/Verify/css/verify.css" rel="stylesheet" />
 </head>
 <body>
     <div>
@@ -29,29 +31,31 @@
             </tr>
         </table>
     </div>
-    <script type="text/javascript" src="slider/jquery.min.js"></script>
-    <script type="text/javascript" src="slider/verify.js"></script>
     <script>
 
-        $('#mpanel1').slideVerify({
-            type: 1,		//类型
-            vOffset: 5,	//误差量，根据需求自行调整
-            barSize: {
-                width: '80%',
-                height: '40px',
-            },
-            ready: function () {
-            },
-            success: function () {
-                alert('验证成功，添加你自己的代码！');
-                //......后续操作
-            },
-            error: function () {
-                //		        	alert('验证失败！');
-            }
-        });
     </script>
 </body>
 </html>
+<script>
+
+    $('#mpanel1').slideVerify({
+        		type : 1,		//类型
+        		vOffset : 5,	//误差量，根据需求自行调整
+		        barSize : {
+		        	width : '80%',
+		        	height : '40px',
+		        },
+		        ready : function() {
+		    	},
+		        success : function() {
+		        	alert('验证成功，添加你自己的代码！');
+		        	//......后续操作
+		        },
+		        error : function() {
+//		        	alert('验证失败！');
+		        }
+		        
+		    });
+</script>
 
 

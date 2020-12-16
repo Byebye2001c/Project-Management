@@ -25,11 +25,6 @@ namespace ProManagement_UI.Controllers
         {
             return View();
         }
-        public ActionResult Addtest()
-        {
-            return View();
-        }
-
         public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=3)
         {
             return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
@@ -63,9 +58,9 @@ namespace ProManagement_UI.Controllers
             }
             return Content(Pathfile);
         }
-        public int PostProject(project_list P)
+        public JsonResult PostProject(project_list P)
         {
-            return bll.PostProject(P);
+            return Json(bll.PostProject(P));
         }
     }
 }
