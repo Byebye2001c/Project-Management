@@ -1,0 +1,104 @@
+﻿
+@{
+    ViewBag.Title = "ShowProject";
+}
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script>
+    var pageindex = 1;
+    var pagesize = 3;
+    var pagecount = 0;
+    var rowcount = 0;
+
+    $(document).ready(function () {
+        Load();
+    });
+
+    function Load(page) {
+        $.ajax({
+            url: '/Project/Getproject?Name=' + $("#selectEmpName").val() + '&PageIndex=' + page + '&PageSize=' + pagesize,
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                pageindex = data.PageIndex;
+                pagesize = data.PageSize;
+                pagecount = data.PageCount;
+                rowcount = data.RowCount;
+                $("#tbody").empty();
+                var html = "";
+                for (var i = 0; i < data.Data.length; i++) {
+                    html +=
+                        '<tr>'+
+                        '<td>'+data.Data[i].Id +'</td>'+
+                        '<td>'+data.Data[i].Name +'</td>'+
+                        '<td>'+data.Data[i].StartDates +'</td>'+
+                        '<td>'+data.Data[i].PlanEndDates +'</td>'+
+                        '<td>'+data.Data[i].AName +'</td>'+
+                        '<td>'+data.Data[i].CName +'</td>'+
+                        '</tr>'
+                }
+                $("#tbody").append(html);
+            }
+         })
+    }
+
+    function Select() {
+        Load();
+    }
+    function Add() {
+        location.href = '/Project/';
+    }
+    function Project() {
+        Load();
+    }
+
+    function Page(page) {
+        Load(page);
+    }
+
+</script>
+<h2>ShowProject</h2>
+<table class="table-bordered">
+    <tr>
+        <td colspan="6" style="width:800px;height:50px">
+            <div style="align-content:center">
+                <input type="text" class="form-control" id="selectEmpName" style="width:200px" />
+
+            </div>
+        </td>
+        <td><button class="btn btn-primary" onclick="Select()">查 询</button></td>
+        <td><button class="btn btn-primary" onclick="Add()">添加项目</button></td>
+    </tr>
+    <tr>
+        <td rowspan="7" style="width:100px;height:400px;vertical-align:top">
+            <input type="button" class="btn btn-primary" value="项目管理" onclick="Project()"/>
+        </td>
+        <td rowspan="6" colspan="7" style="width:700px;vertical-align:top">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>序号</td>
+                        <td>项目名称</td>
+                        <td>项目开始日期</td>
+                        <td>项目预计结束日期</td>
+                        <td>第一责任人</td>
+                        <td>类型</td>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<table style="width:1140px">
+    <tr>
+        <td colspan="6" style="width:880px;height:50px">
+        </td>
+        <td>
+            <a href="#" class="btn btn-primary" onclick="Page(1)">首页</a>
+            <a href="#" class="btn btn-primary" onclick="Page(pageindex - 1 <= 0 ? 1 : pageindex - 1)">上一页</a>
+            <a href="#" class="btn btn-primary" onclick="Page(pageindex + 1 >= pagecount ? pagecount : pageindex + 1)">下一页</a>
+            <a href="#" class="btn btn-primary" onclick="Page(pagecount)">尾页</a>
+        </td>
+    </tr>
+</table>

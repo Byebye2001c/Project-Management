@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "LoginEmp";
+}
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script>
+
+    function Save() {
+        $.ajax({
+            url: '/Project/Login',
+            data: {
+                Account: $("#Account").val(),
+                Password: $("#Password").val()
+            },
+            type:'Get',
+            datatype: 'json',
+            success: function (data) {
+                if (data > 0) {
+                    alert('登录成功');
+                    location.href = '/Project/ShowProject';
+                } else {
+                    alert('登录失败，用户名或密码错误');
+                }
+            }
+        })
+    }
+</script>
+<h2>LoginEmp</h2>
+<table>
+    <tr>
+        <td>账号：</td>
+        <td><input type="text" id="Account" /></td>
+    </tr>
+    <tr>
+        <td>密码：</td>
+        <td><input type="text" id="Password" /></td>
+    </tr>
+    <tr>
+        <td>
+            <div id="mpanel1"></div>
+        </td>
+    </tr>
+    <tr>
+        <td><input type="button" class="btn btn-primary" value="登 录" onclick="Save()" /></td>
+    </tr>
+</table>
+<style>
+
+</style>
