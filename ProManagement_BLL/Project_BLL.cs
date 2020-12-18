@@ -35,6 +35,10 @@ namespace ProManagement_BLL
         {
             return dal.PostProject(P);
         }
+        public Page<Project_Employees> Getproject_Employees(string Name, int PageIndex, int PageSize)
+        {
+            return dal.Getproject_Employees(Name, PageIndex, PageSize);
+        }
         public long PostProject_Employees(Project_Employees P)
         {
             return dal.PostProject_Employees(P);

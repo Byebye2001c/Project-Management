@@ -23,6 +23,7 @@ namespace ProManagement_Model
         public bool Theobtainmentofdate { get; set; }
         public int Employeestel { get; set; }
         public int DeptId { get; set; }
+        public string DeptName { get; set; }
         public string Tips { get; set; }
         public string PersonalImgUrl { get; set; }
 

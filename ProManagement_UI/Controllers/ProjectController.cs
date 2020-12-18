@@ -13,25 +13,19 @@ namespace ProManagement_UI.Controllers
     {
         // GET: Project
         Project_BLL bll = new Project_BLL();
+
+        #region 登录
         public ActionResult LoginEmp()
         {
             return View();
         }
-        public ActionResult ShowProject()
-        {
-            return View();
-        }
-
-
-        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=10)
-        {
-            return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
-        }
-
         public JsonResult Login(string Account, string Password)
         {
             return Json(bll.Login(Account, Password), JsonRequestBehavior.AllowGet);
         }
+        #endregion
+
+        #region 绑定下拉框方法
         public JsonResult GetProject_Type()
         {
             return Json(bll.GetProject_Type(), JsonRequestBehavior.AllowGet);
@@ -43,6 +37,17 @@ namespace ProManagement_UI.Controllers
         public JsonResult GetProject_dept()
         {
             return Json(bll.GetProject_dept(), JsonRequestBehavior.AllowGet);
+        }
+        #endregion
+
+        #region 项目信息及主界面显示
+        public ActionResult ShowProject()
+        {
+            return View();
+        }
+        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=10)
+        {
+            return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
         }
         #region 添加项目信息
         public ActionResult AddProject()
@@ -61,7 +66,7 @@ namespace ProManagement_UI.Controllers
                 string FullfileName = Guid.NewGuid().ToString() + extName;
                 string NewName = Path.Combine(Server.MapPath("~/file/"), FullfileName);
                 Postfile.SaveAs(NewName);
-                Pathfile = "/file/"+FullfileName;
+                Pathfile = "/file/" + FullfileName;
             }
             return Content(Pathfile);
         }
@@ -70,6 +75,9 @@ namespace ProManagement_UI.Controllers
             return Json(bll.PostProject(P));
         }
         #endregion
+        #endregion
+
+        #region 员工信息
 
         #region 添加员工信息
         public ActionResult Addemployees()
@@ -96,6 +104,14 @@ namespace ProManagement_UI.Controllers
         {
             return Json(bll.PostProject_Employees(P));
         }
+        #endregion
+
+        #region 显示员工信息
+        public JsonResult Getproject_Employees(string Name="", int PageIndex=1, int PageSize=10)
+            {
+                return Json(bll.Getproject_Employees(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
+            }
+        #endregion
         #endregion
     }
 }
