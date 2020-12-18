@@ -108,9 +108,9 @@ namespace ProManagement_UI.Controllers
 
         #region 显示员工信息
         public JsonResult Getproject_Employees(string Name="", int PageIndex=1, int PageSize=10)
-            {
-                return Json(bll.Getproject_Employees(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
-            }
+        {
+            return Json(bll.Getproject_Employees(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
+        }
         #endregion
         #endregion
     }

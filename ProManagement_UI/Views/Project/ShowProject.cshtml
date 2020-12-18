@@ -17,10 +17,11 @@
     });
 
     function Load(page) {
+
         $("#Thead").empty();
         var theadhtml =                         
             '<tr>'+
-                '<td style="text-align:center">序号</td>'+
+                '<td style="text-align:center" id="IDS">序号</td>'+
                 '<td style="text-align:center">项目名称</td>'+
                 '<td style="text-align:center">项目开始日期</td>'+
                 '<td style="text-align:center">项目预计结束日期</td>'+
@@ -64,7 +65,7 @@
         $("#Thead").empty();
         var theadhtml =                         
             '< tr >'+
-            '<td style="text-align:center">姓名</td>'+
+            '<td style="text-align:center" id="IDS">姓名</td>'+
             '<td style="text-align:center">出生日期</td>'+
             '<td style="text-align:center">籍贯</td>'+
             '<td style="text-align:center">性别</td>'+
@@ -124,15 +125,20 @@
         Load();
         Load_Employees();
     }
+
     function AddProject() {
         location.href = '/Project/AddProject';
     }
     function Addemployees() {
         location.href = '/Project/';
     }
+
     function Page(page) {
-        Load(page);
-        Load_Employees(page);
+        if ($("#IDS").html() == "姓名") {         
+            Load_Employees(page);
+        } else if ($("#IDS").html() == "序号") {      
+            Load(page);
+        }   
     }
 
 </script>
