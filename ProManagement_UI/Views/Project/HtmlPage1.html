@@ -1,45 +1,35 @@
-﻿<!DOCTYPE html>
-
-<html>
-
+﻿<html>
 <head>
+    <title>获取上传图片大小</title>
+    <script type="text/javascript">
+        function GetFileSize() {
+            var file = document.getElementById('fileToUpload').files[0];
+            if (file) {
+                var fileSize = 0;
+                if (file.size > 1024 * 1024)
+                    fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                else
+                    fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+            }
+            alert(fileSize);
 
-    <meta charset="UTF-8">
-
-    <title></title>
-
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/css/select2.min.css" />
-
-    <style type="text/css">
-        #color {
-            width: 300px;
         }
-    </style>
 
+        //jquery版需要修改成如下
+        //var file = $("选择器")[0];
+        //if (file) {
+        //    var fileSize = 0;
+        //    if (file.files[0].size > 1024 * 1024)
+        //        fileSize = (Math.round(file.files[0].size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+        //    else
+        //        fileSize = (Math.round(file.files[0].size * 100 / 1024) / 100).toString() + 'KB';
+        //}
+
+
+
+/**/</script>
 </head>
-
 <body>
-    <select name="" id="color" multiple="multiple">
-
-        <option value="">请选择颜色</option>
-
-        <option value="red">红色</option>
-
-        <option value="green">绿色</option>
-
-        <option value="blue">蓝色</option>
-
-        <option value="yellow">黄色</option>
-
-    </select>
-
+    <input type="file" id="fileToUpload" value="" onchange="GetFileSize()">
 </body>
-</html>
-<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" type="text/javascript" charset="utf-8"></script>
-
-<script type="text/javascript">
-    //初始化select2
-    $("#color").select2();
-</script>
+</html> 

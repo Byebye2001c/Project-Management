@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Page.cs" />
+    <Compile Include="Project_dept.cs" />
     <Compile Include="project_emp.cs" />
+    <Compile Include="Project_Employees.cs" />
     <Compile Include="project_list.cs" />
     <Compile Include="project_type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

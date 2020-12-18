@@ -27,9 +27,17 @@ namespace ProManagement_BLL
         {
             return dal.GetProject_emp();
         }
+        public List<Project_dept> GetProject_dept()
+        {
+            return dal.GetProject_dept();
+        }
         public int PostProject(project_list P)
         {
             return dal.PostProject(P);
+        }
+        public long PostProject_Employees(Project_Employees P)
+        {
+            return dal.PostProject_Employees(P);
         }
     }
 }

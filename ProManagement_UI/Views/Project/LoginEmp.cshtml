@@ -9,31 +9,30 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>LoginEmp</title>
-    <script src="~/Views/Verify/js/verify.min.js"></script>
-    <script src="~/Views/Verify/js/jquery.min.js"></script>
-    <link href="~/Views/Verify/css/verify.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Verify/css/verify.css" rel="stylesheet" />
+    <script src="~/Verify/js/jquery.min.js"></script>
+    <script src="~/Verify/js/verify.min.js"></script>
 </head>
-<body>
-    <div>
-        <table>
+<body style="background-color:black">
+    <div style="border-radius:20px;position:absolute;left:50%;top:50%;width:500px;height:300px;background-color:black;margin-left:-100px;margin-top:-100px;">
+        <table class="table" style="width:400px;height:150px;position:absolute;margin-left:50px;margin-top:40px;border-color:black" >
             <tr>
-                <td>账号：</td>
-                <td><input type="text" id="Account" /></td>
+                <td style="text-align:center;font-size:30px;color:white" readonly="readonly">项目管理系统</td>
             </tr>
             <tr>
-                <td>密码：</td>
-                <td><input type="text" id="Password" /></td>
+                <td><input type="text" class="form-control" style="border-radius:10px" id="Account" placeholder="请输入账号..."/></td>
             </tr>
             <tr>
-                <td>
-                    <div id="mpanel1"></div>
+                <td><input type="password" class="form-control" style="border-radius:10px" id="Password" placeholder="请输入密码..."/></td>
+            </tr>
+            <tr>
+                <td style="right:20px">
+                    <div id="mpanel1" style="width:280px"></div>
                 </td>
             </tr>
         </table>
     </div>
-    <script>
-
-    </script>
 </body>
 </html>
 <script>
@@ -42,14 +41,26 @@
         		type : 1,		//类型
         		vOffset : 5,	//误差量，根据需求自行调整
 		        barSize : {
-		        	width : '80%',
+		        	width : '100%',
 		        	height : '40px',
 		        },
 		        ready : function() {
 		    	},
-		        success : function() {
-		        	alert('验证成功，添加你自己的代码！');
-		        	//......后续操作
+        success: function () {
+            $.ajax({
+                url: '/Project/Login?Account=' + $("#Account").val() + '&Password=' + $("#Password").val(),
+                type: 'get',
+                datatype: 'json',
+                success: function (data) {
+                    if (data > 0) {
+                        alert('登录成功');
+                    location.href = '/Project/ShowProject';
+                    }
+                    else {
+                    alert('用户名或密码错误');         
+                    }
+                }
+            })
 		        },
 		        error : function() {
 //		        	alert('验证失败！');

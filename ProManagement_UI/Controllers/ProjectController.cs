@@ -21,11 +21,9 @@ namespace ProManagement_UI.Controllers
         {
             return View();
         }
-        public ActionResult AddProject()
-        {
-            return View();
-        }
-        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=3)
+
+
+        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=10)
         {
             return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
         }
@@ -41,6 +39,15 @@ namespace ProManagement_UI.Controllers
         public JsonResult GetProject_emp()
         {
             return Json(bll.GetProject_emp(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetProject_dept()
+        {
+            return Json(bll.GetProject_dept(), JsonRequestBehavior.AllowGet);
+        }
+        #region 添加项目信息
+        public ActionResult AddProject()
+        {
+            return View();
         }
         public ActionResult fileUpLoad()
         {
@@ -62,5 +69,33 @@ namespace ProManagement_UI.Controllers
         {
             return Json(bll.PostProject(P));
         }
+        #endregion
+
+        #region 添加员工信息
+        public ActionResult Addemployees()
+        {
+            return View();
+        }
+        public ActionResult PicUpLoad()
+        {
+            HttpPostedFileBase Postfile = Request.Files[0];
+
+            string Pathfile = "";
+            if (Postfile.ContentLength > 0)
+            {
+                string fileName = Postfile.FileName;
+                string extName = Path.GetFileName(fileName);
+                string FullfileName = Guid.NewGuid().ToString() + extName;
+                string NewName = Path.Combine(Server.MapPath("~/Img/"), FullfileName);
+                Postfile.SaveAs(NewName);
+                Pathfile = "/Img/" + FullfileName;
+            }
+            return Content(Pathfile);
+        }
+        public JsonResult PostProject_Employees(Project_Employees P)
+        {
+            return Json(bll.PostProject_Employees(P));
+        }
+        #endregion
     }
 }

@@ -1,0 +1,217 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Addemployees</title>
+
+</head>
+
+<body>
+    <h2 style="text-align:center">添加员工信息</h2>
+    <div>
+        <table class="table table-condensed" style="border-radius:20px;background-color:lightblue;vertical-align:auto;margin-left:20%;margin-top:30px;width:850px">
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="width:320px"><input type="text" class="form-control" style="width:300px;height:30px" id="Name" placeholder="姓名" /></td>
+                <td style="width:340px">
+                    <select style="width:300px;height:30px" id="GraduateSchool">
+                        <option value="毕业院校">毕业院校</option>
+                        <option value="对外经贸大学">对外经贸大学</option>
+                        <option value="北京大学">北京大学</option>
+                        <option value="清华大学">清华大学</option>
+                        <option value="北京大学">双鸭山大学</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="date" class="form-control" style="width:300px;height:30px" id="Birthday" placeholder="出生日期" /></td>
+                <td>
+                    <select style="width:300px;height:30px" id="Record">
+                        <option value="本科">本科</option>
+                        <option value="专科">专科</option>
+                    </select>
+                </td>
+                <td rowspan="5">
+                    <img src="~/Img/timg.jpg" style="width:150px;height:180px" id="ImgPic" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select style="width:300px;height:30px" id="Native">
+                        <option value="0">籍贯</option>
+                        <option value="1">山西</option>
+                        <option value="2">河北</option>
+                        <option value="3">河南</option>
+                    </select>
+                </td>
+                <td>
+                    <select style="width:300px;height:30px" id="Marriage">
+                        <option value="未婚">未婚</option>
+                        <option value="已婚">已婚</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="radio" name="gender" value="1" checked="checked" />男
+                    <input type="radio" name="gender" value="0" />女
+                </td>
+                <td>
+                    <select style="width:300px;height:30px" id="Inpost">
+                        <option value="0">入职岗位</option>
+                        <option value="1">工程师</option>
+                        <option value="2">程序员</option>
+                        <option value="3">架构师</option>
+                        <option value="4">码农</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="date" class="form-control" style="width:300px;height:30px" id="UpEmpDate" placeholder="入职日期" /></td>
+                <td><input type="date" class="form-control" style="width:300px;height:30px" id="Departuredate" placeholder="离职日期" /></td>
+            </tr>
+            <tr>
+                <td><input type="date" class="form-control" style="width:300px;height:30px" id="EndEmpDate" placeholder="转正日期" /></td>
+                <td>
+                    <input type="checkbox" name="Cbx">是否转正
+                </td>
+            </tr>
+            <tr>
+                <td><input type="tel" class="form-control" style="width:300px;height:30px" id="Employeestel" placeholder="联系电话" /></td>
+                <td></td>
+                <td>
+                    <input type="file" class="btn btn-group" style="margin-left:20%" value="上传头像" id="UpLoad" onchange="PicUpLoad()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <select style="width:300px;height:30px" id="GetProject_dept"></select>
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <textarea maxlength="300" rows="5" cols="40" placeholder="备注内容：请小于300字" id="Tips"></textarea>
+                </td>
+            </tr>
+            <tr></tr>
+            <tr>
+                <td colspan="11">
+                    <input type="button" style="margin-left:40%" class="btn btn-primary" value="保存新增员工信息" onclick="Save()" />
+                </td>
+            </tr>
+            <tr><td>&nbsp;</td></tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+
+    if ($("#Departuredate").val() < $("#UpEmpDate").val()) {
+        alert('离职日期要大于入职日期');
+    }
+
+    $(document).ready(function () {
+        GetProject_dept();
+    });
+    function GetProject_dept() {
+        $.ajax({
+            url: '/Project/GetProject_dept',
+            type: 'Get',
+            datatype: 'json',
+            success: function (data) {
+                var html = "<option value=0>属于部门</option>";
+                $("#GetProject_dept").empty();
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value=" + data[i].DeptId + ">" + data[i].DeptName + "</option>";
+                }
+                $("#GetProject_dept").append(html);
+            }
+        })
+    }
+
+    function PicUpLoad() {
+        var file = $("#UpLoad")[0].files[0];
+        if (file) {
+            var fileSize = 0;
+            if (file.size > 1024 * 1024) {
+                fileSize = (Math.round(file.size * 100 / (1024 * 1024)) / 100).toString() + 'MB';
+                alert('文件大小需小于1MB');
+                return;
+            } else {
+                fileSize = (Math.round(file.size * 100 / 1024) / 100).toString() + 'KB';
+            }
+                
+        }
+        alert(fileSize);
+        var fileRedar = new FileReader();
+        fileRedar.onload = function () {
+            $("#ImgPic").attr("src", this.result);
+        }
+        fileRedar.readAsDataURL(file);
+
+        var fd = new FormData();
+        fd.append("UpLoad", file);
+
+        $.ajax({
+            url: '/Project/PicUpLoad',
+            type: 'post',
+            data: fd,
+            datatype: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    alert('上传成功');
+                    $("#ImgPic").attr("src", data);
+                }
+                else {
+                    alert('上传失败')
+                }
+            }
+        })
+    }
+
+    function Save() {
+        $.ajax({
+            url: '/Project/PostProject_Employees',
+            data: {
+                EmployeesName: $("#Name").val(),
+                Birthday: $("#Birthday").val(),
+                Native: $("#Native").val(),
+                Gender: $('input[name="gender"]:checked').val(),
+                GraduateSchool: $("#GraduateSchool").val(),
+                Record: $("#Record").val(),
+                Marriage: $("#Marriage").val(),
+                Inpost: $("#Inpost").val(),
+                UpEmpDate: $("#UpEmpDate").val(),
+                EndEmpDate: $("#EndEmpDate").val(),
+                Departuredate: $("#Departuredate").val(),
+                Theobtainmentofdate: $('input[name="Cbx"]:checked').val(),
+                Employeestel: $("#Employeestel").val(),
+                DeptId: $("#GetProject_dept").val(),
+                Tips: $("#Tips").val(),
+                PersonalImgUrl: $("#ImgPic").attr("src")
+
+            },
+            type: 'Post',
+            datatype: 'json',
+            success: function (data) {
+                if (data > 0) {
+                    alert('添加员工信息成功');
+                    location.href = '/Project/ShowProject';
+                } else {
+                    alert('添加员工信息失败');
+                }
+            }
+        })
+    }
+</script>
