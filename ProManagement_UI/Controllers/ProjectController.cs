@@ -19,9 +19,9 @@ namespace ProManagement_UI.Controllers
         {
             return View();
         }
-        public JsonResult Login(string Account, string Password)
+        public JsonResult Login(string Name, string Pwd)
         {
-            return Json(bll.Login(Account, Password), JsonRequestBehavior.AllowGet);
+            return Json(bll.Login(Name,Pwd), JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -49,11 +49,47 @@ namespace ProManagement_UI.Controllers
         {
             return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
         }
+        //根据项目的ID获取一条项目信息
+        public JsonResult GetProjects(int Id)
+        {
+            return Json(bll.GetProjects(Id),JsonRequestBehavior.AllowGet);
+        }
+        //获取参与人的信息
+        public JsonResult GetProjectsQuery(int Id=0)
+        {
+            return Json(bll.GetProjectsQuery(Id),JsonRequestBehavior.AllowGet);
+        }
+        //获取项目参与人下载文件权限
+        public JsonResult GetProject_Players(int Id)
+        {
+            return Json(bll.GetProject_Players(Id),JsonRequestBehavior.AllowGet);
+        }
+        //获取员工姓名，员工部门，员工编号的下拉框
+        public JsonResult Get_Emps(string Name="")
+        {
+            return Json(bll.Get_Emps(Name), JsonRequestBehavior.AllowGet);
+        }
+        //Del修改项目的参与人
+        public JsonResult UpDelProjectPlayer(int pid)
+        {
+            return Json(bll.UpDelProjectPlayer(pid), JsonRequestBehavior.AllowGet);
+        }
+        //删除项目的参与人
+        public void DelProjectPlayer(project_player P)
+        {
+            bll.DelProjectPlayer(P);
+        }
+        //添加项目的参与人
+        public void AddlProjectPlayer(project_player P)
+        {
+            bll.AddlProjectPlayer(P);
+        }
+
         #region 添加项目信息
         public ActionResult AddProject()
-        {
-            return View();
-        }
+            {
+                return View();
+            }
         public ActionResult fileUpLoad()
         {
             HttpPostedFileBase Postfile = Request.Files[0];
@@ -70,7 +106,7 @@ namespace ProManagement_UI.Controllers
             }
             return Content(Pathfile);
         }
-        public JsonResult PostProject(project_list P)
+        public JsonResult PostProject(project P)
         {
             return Json(bll.PostProject(P));
         }
@@ -100,18 +136,27 @@ namespace ProManagement_UI.Controllers
             }
             return Content(Pathfile);
         }
-        public JsonResult PostProject_Employees(Project_Employees P)
+
+        public long PostProject_Employees(project_emp P)
         {
-            return Json(bll.PostProject_Employees(P));
+            return bll.PostProject_Employees(P);
         }
         #endregion
 
         #region 显示员工信息
-        public JsonResult Getproject_Employees(string Name="", int PageIndex=1, int PageSize=10)
-        {
-            return Json(bll.Getproject_Employees(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult Getproject_Employees(string Name="", int PageIndex=1, int PageSize=10)
+        //{
+        //    return Json(bll.Getproject_player(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
+        //}
         #endregion
+        #endregion
+
+        #region 参与人
+        public ActionResult PostParticipants()
+        {
+            return View();
+        }
+
         #endregion
     }
 }

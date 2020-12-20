@@ -81,7 +81,7 @@
                 $("#GetEmpId").empty();
                 var html = "<option value=0>-请选择-</option>";
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value=" + data[i].Id + ">" + data[i].Name + "</option>";
+                    html += "<option value=" + data[i].eid + ">" + data[i].ename + "</option>";
                 }
                 $("#GetEmpId").append(html);
             }
@@ -96,7 +96,7 @@
                 $("#GetEmpIn").empty();
                 var html = "<option value=0>-请选择-</option>";
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value=" + data[i].Name + ">" + data[i].Name + "</option>";
+                    html += "<option value=" + data[i].eid + ">" + data[i].ename + "</option>";
                 }
                 $("#GetEmpIn").append(html);
             }
@@ -111,7 +111,7 @@
                 $("#GetTypeId").empty();
                 var html = "<option value=0>-请选择-</option>";
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value=" + data[i].Id + ">" + data[i].Name + "</option>";
+                    html += "<option value=" + data[i].tid + ">" + data[i].tname + "</option>";
                 }
                 $("#GetTypeId").append(html);
             }
@@ -149,13 +149,13 @@
         $.ajax({
             url: '/Project/PostProject',
             data: {
-                Name: $("#Name").val(),
-                StartDate: $("#StartDate").val(),
-                PlanEndDate: $("#PlanEndDate").val(),
-                EmpId: $("#GetEmpId").val(),
-                TypeId: $("#GetTypeId").val(),
-                EmpIn: $("#GetEmpIn").val().toString(),
-                AccessUrl: $("#file_url").val()
+                pname: $("#Name").val(),
+                add_time: $("#StartDate").val(),
+                end_time_plan: $("#PlanEndDate").val(),
+                principal: $("#GetEmpId").val(),
+                tid: $("#GetTypeId").val(),
+                players: $("#GetEmpIn").val().toString(),
+                file_url: $("#file_url").val()
             },
             type: 'Post',
             datatype: 'json',

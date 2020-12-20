@@ -1,0 +1,297 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/select2/select2.full.js"></script>
+<link href="~/select2/select2.min.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PostParticipants</title>
+</head>
+<body>
+    <div>
+        <table class="table table-hover" style="background-color:red;width:70%;height:700px;margin-left:15%;margin-top:5%">
+            <tr>
+                <td style="background-color:aqua">
+                    <table style="background-color:antiquewhite;width:90%;height:70%;margin-left:5%">
+                        <tr>
+                            <td style="background-color:burlywood">
+                                <table class="table table-bordered" style="width:800px">
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">项目标题：</td>
+                                        <td><input type="text" id="Name" class="form-control" disabled="disabled"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">开始时间：</td>
+                                        <td><input type="date" id="StartDate" class="form-control" disabled="disabled"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">结束时间：</td>
+                                        <td><input type="date" id="PlanEndDate" class="form-control" disabled="disabled" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">责任人：</td>
+                                        <td>
+                                            <span id="GetEmpId"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">参与人：</td>
+                                        <td>
+                                            <span id="GetEmpIn"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="width:100px;vertical-align:middle">项目类型：</td>
+                                        <td>
+                                            <span id="GetTypeId"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tbody id="Accccc">
+
+            </tbody>
+            <tr>
+                <td style="background-color:aqua">
+                    <table style="background-color:antiquewhite;width:90%;height:70%;margin-left:5%">
+                        <tr>
+                            <td style="background-color:burlywood">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <input type="text" id="SelectName" placeholder="根据姓名查询"/>
+                                            <input type="button" id="SelectBtn" value="查" class="btn btn-primary" onclick="Select()"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <select id="selectQu" multiple="multiple" style="width:200px" >
+                                                
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select id="GetDownloadS" style="width:150px">
+                                                <option value="1">可以下载文档</option>
+                                                <option value="0">不可以下载文档</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="button" class="btn btn-primary" style="margin-left:90%" value="保存新增" onclick="AddEmp()"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="background-color:burlywood"></td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    var id = location.href.split('=')[1];
+
+    $(document).ready(function () {
+        selectQu();
+        $("#selectQu").select2();
+        PutProject();
+        GetProject_Participants();
+    });
+
+    function PutProject() {
+        $.ajax({
+            url: '/Project/GetProjects?Id=' + id,
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                $("#Name").val(data.pname);
+                $("#StartDate").val(data.add_times);
+                $("#PlanEndDate").val(data.end_time_plans);
+                $("#GetEmpId").html(data.ename);
+                $("#GetEmpIn").html(data.players);
+                $("#GetTypeId").html(data.tname);
+            }
+        })
+    }
+
+    function GetProject_Participants() {
+        $.ajax({
+            url: '/Project/GetProjectsQuery?Id=' + id,
+            type: 'get',
+            datatype:'json',
+            success: function (data) {
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html +=
+                        '<tr>' +
+                        '<td style="background-color:aqua">' +
+                        '<table style="background-color:antiquewhite;width:90%;height:70%;margin-left:5%">' +
+                        '<tr>' +
+                        '<td style="background-color:burlywood">' +
+                        '<table>' +
+                        '<tr>' +
+                        '<td style="width:150px">' +
+                        '<input type="hidden" id="UpId' + [i] + '" value="' + data[i].eid + '"/>' +                  
+                        '<span>' + data[i].ename + '</span>&nbsp;&nbsp;' +
+                        '</td>' +
+                        '<td>' +
+                        '<select id="GetDownload'+ [i] +'" style="width:150px">' +
+                        '<option value="1">可以下载文档</option>' +
+                        '<option value="0">不可以下载文档</option>' +
+                        '</select>' +
+                        '</td>'+
+                        '</tr>' +
+                        '</table>' +
+                        '</td>' +
+                        '<td style="background-color:burlywood">' +
+                        '<input type="button" class="btn btn-danger" onclick="DelEmp('+ [i] +')" Id="Del'+ [i] +'" value="删 除" />' +
+                        '</td>' +
+                        '</tr>' +
+                        '</table>' +
+                        '</td>' +
+                        '</tr>';
+
+                }
+                $("#Accccc").html(html);
+                GetEmpState();
+            }
+            
+        })
+    }
+
+    function GetEmpState() {
+        $.ajax({
+            url: '/Project/GetProject_Players?Id=' + id,
+            type: 'get',
+            datatype:'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    alert(data[i].can_download);
+                    if (data[i].can_download == true) {
+                        $("#GetDownload" + [i] + "").val(1).prop('checked', true);
+                    } else {
+                        $("#GetDownload" + [i] + "").val(0).prop('checked', false);
+                    }
+                    
+                }
+            }
+            
+        })
+    }
+
+    function DelEmp(Did) {
+        $.ajax({
+            url: '/Project/UpDelProjectPlayer?pid=' + id,
+            type: 'get',
+            datatype:'json',
+            success: function (data) {
+                alert(data);
+                if (data == 1) {
+                    alert('请最少选择一位参与人');
+                    return;
+                }
+                var html = "";
+                alert($("#UpId1").val());
+                for (var i = 0; i < data; i++) {
+                    if ([i] != Did) {
+                        html += $("#UpId" + [i] + "").val() + ',';
+                    }      
+                }
+                html = html.substr(0, html.length - 1);
+                alert(html);
+                    $.ajax({
+                        url: '/Project/DelProjectPlayer',
+                        data: {
+                            pid: id,
+                            eid: html,
+                        },
+                        type: 'Post',
+                        datatype: 'json',
+                        success: function () {
+                            location.href = '/Project/PostParticipants?Id=' + id;
+                        }
+                    })
+            }
+            
+        })
+    }
+
+    function AddEmp(Did) {
+        $.ajax({
+            url: '/Project/UpDelProjectPlayer?pid=' + id,
+            type: 'get',
+            datatype:'json',
+            success: function (data) {
+                var html = "";
+                for (var i = 0; i < data; i++) {
+                    if ([i] != Did) {
+                        html += $("#UpId" + [i] + "").val() + ',';
+                    } else {
+                    } 
+                    
+                }
+                html = html.substr(0, html.length - 1) + ',' + $("#selectQu").select2().val();
+                alert(html);
+                    $.ajax({
+                        url: '/Project/AddlProjectPlayer',
+                        data: {
+                            pid: id,
+                            eid: html,
+                            can_download: $("#GetDownloadS:checked").val()
+                        },
+                        type: 'Post',
+                        datatype: 'json',
+                        success: function () {
+                            location.href = '/Project/PostParticipants?Id=' + id;
+                        }
+                    })
+            }
+            
+        })
+        }
+
+    function selectQu() {
+        $.ajax({
+            url: '/Project/Get_Emps',
+            type: 'Get',
+            datatype: 'json',
+            success: function (data) {           
+                $("#selectQu").empty();
+                var html = "";
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value=" + data[i].eid + ">" + data[i].ename + "&nbsp;" + data[i].eno + "&nbsp;" + data[i].tname + "</option>";
+                }
+                $("#selectQu").append(html);
+                
+            }
+        })
+        }
+
+    function Select() {
+        $.ajax({
+            url: '/Project/Get_Emps?Name=' + $("#SelectName").val(),
+            type: 'Get',
+            datatype: 'json',
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $("#selectQu").val(data[i].eid).trigger("change");
+                }
+                        
+            }
+        })
+        }
+
+</script>

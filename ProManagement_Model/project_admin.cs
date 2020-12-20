@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace ProManagement_Model
 {
-    public class project_dept
+    public class project_admin
     {
-        public int dept_id { get; set; }
-        public string dept_name { get; set; }
+        public int user_id { get; set; }
+        public string user_name { get; set; }
+        public string user_pwd { get; set; }
     }
 }

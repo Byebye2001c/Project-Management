@@ -131,7 +131,7 @@
                 var html = "<option value=0>属于部门</option>";
                 $("#GetProject_dept").empty();
                 for (var i = 0; i < data.length; i++) {
-                    html += "<option value=" + data[i].DeptId + ">" + data[i].DeptName + "</option>";
+                    html += "<option value=" + data[i].dept_id + ">" + data[i].dept_name + "</option>";
                 }
                 $("#GetProject_dept").append(html);
             }
@@ -184,22 +184,22 @@
         $.ajax({
             url: '/Project/PostProject_Employees',
             data: {
-                EmployeesName: $("#Name").val(),
-                Birthday: $("#Birthday").val(),
-                Native: $("#Native").val(),
-                Gender: $('input[name="gender"]:checked').val(),
-                GraduateSchool: $("#GraduateSchool").val(),
-                Record: $("#Record").val(),
-                Marriage: $("#Marriage").val(),
-                Inpost: $("#Inpost").val(),
-                UpEmpDate: $("#UpEmpDate").val(),
-                EndEmpDate: $("#EndEmpDate").val(),
-                Departuredate: $("#Departuredate").val(),
-                Theobtainmentofdate: $('input[name="Cbx"]:checked').val(),
-                Employeestel: $("#Employeestel").val(),
-                DeptId: $("#GetProject_dept").val(),
-                Tips: $("#Tips").val(),
-                PersonalImgUrl: $("#ImgPic").attr("src")
+                ename: $("#Name").val(),
+                birth_date: $("#Birthday").val(),
+                native: $("#Native").val(),
+                gender: $('input[name="gender"]:checked').val(),
+                graduate_institution: $("#GraduateSchool").val(),
+                education: $("#Record").val(),
+                is_marry: $("#Marriage").val(),
+                job: $("#Inpost").val(),
+                qualified_date: $("#UpEmpDate").val(),
+                dimission_date: $("#EndEmpDate").val(),
+                job_date: $("#Departuredate").val(),
+                is_qualified: $('input[name="Cbx"]:checked').val(),
+                phone: $("#Employeestel").val(),
+                dept_Id: $("#GetProject_dept").val(),
+                ps: $("#Tips").val(),
+                id_photo_url: $("#ImgPic").attr("src")
 
             },
             type: 'Post',

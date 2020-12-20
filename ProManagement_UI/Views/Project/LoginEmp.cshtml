@@ -48,7 +48,7 @@
 		    	},
         success: function () {
             $.ajax({
-                url: '/Project/Login?Account=' + $("#Account").val() + '&Password=' + $("#Password").val(),
+                url: '/Project/Login?Name=' + $("#Account").val() + '&Pwd=' + $("#Password").val(),
                 type: 'get',
                 datatype: 'json',
                 success: function (data) {

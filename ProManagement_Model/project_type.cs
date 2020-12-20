@@ -8,7 +8,7 @@ namespace ProManagement_Model
 {
     public class project_type
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public int tid { get; set; }
+        public string tname { get; set; }
     }
 }
