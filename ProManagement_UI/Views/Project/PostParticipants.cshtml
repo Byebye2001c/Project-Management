@@ -179,7 +179,6 @@
             datatype:'json',
             success: function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    alert(data[i].can_download);
                     if (data[i].can_download == true) {
                         $("#GetDownload" + [i] + "").val(1).prop('checked', true);
                     } else {
@@ -198,20 +197,17 @@
             type: 'get',
             datatype:'json',
             success: function (data) {
-                alert(data);
                 if (data == 1) {
                     alert('请最少选择一位参与人');
                     return;
                 }
                 var html = "";
-                alert($("#UpId1").val());
                 for (var i = 0; i < data; i++) {
                     if ([i] != Did) {
                         html += $("#UpId" + [i] + "").val() + ',';
                     }      
                 }
                 html = html.substr(0, html.length - 1);
-                alert(html);
                     $.ajax({
                         url: '/Project/DelProjectPlayer',
                         data: {
@@ -244,7 +240,6 @@
                     
                 }
                 html = html.substr(0, html.length - 1) + ',' + $("#selectQu").select2().val();
-                alert(html);
                     $.ajax({
                         url: '/Project/AddlProjectPlayer',
                         data: {

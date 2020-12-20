@@ -53,11 +53,11 @@
                 datatype: 'json',
                 success: function (data) {
                     if (data > 0) {
-                        alert('登录成功');
                     location.href = '/Project/ShowProject';
                     }
                     else {
-                    alert('用户名或密码错误');         
+                        alert('用户名或密码错误'); 
+                        location.href = '/Project/LoginEmp';
                     }
                 }
             })
