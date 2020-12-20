@@ -181,6 +181,12 @@
     }
 
     function Save() {
+        if ($("#Departuredate").val() == null) {
+
+        } else if ($("#Departuredate").val() < $("#UpEmpDate").val()) {
+            alert("离职日期需大于入职日期");
+            return;
+        }
         $.ajax({
             url: '/Project/PostProject_Employees',
             data: {

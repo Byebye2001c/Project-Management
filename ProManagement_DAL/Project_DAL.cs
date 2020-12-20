@@ -32,8 +32,9 @@ namespace ProManagement_DAL
             List<project> list = db.GetData<project>(sql);
             List<project> RowList = db.GetData<project>(RowSql);
             Pager.RowCount = RowList.Count();
-            
-            for (int i = 0; i < Pager.RowCount; i++)
+            Pager.PageCount = Convert.ToInt32(Math.Ceiling(Pager.RowCount * 1.0 / PageSize));
+            Pager.PageIndex = PageIndex;
+            for (int i = 0; i < Pager.PageIndex; i++)
             {
                 if (list[i].players.Contains(','))
                 {
@@ -50,10 +51,7 @@ namespace ProManagement_DAL
                 {
                     list[i].players = FullPlayers(list[i].players);
                 }
-                
             }
-            Pager.PageCount = Convert.ToInt32(Math.Ceiling(Pager.RowCount * 1.0 / PageSize));
-            Pager.PageIndex = PageIndex;
             Pager.PageSize = PageSize;
             Pager.Data = list;
 

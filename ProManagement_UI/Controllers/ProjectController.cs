@@ -45,7 +45,7 @@ namespace ProManagement_UI.Controllers
         {
             return View();
         }
-        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=10)
+        public JsonResult Getproject(string Name="", int PageIndex=1, int PageSize=2)
         {
             return Json(bll.Getproject(Name, PageIndex, PageSize), JsonRequestBehavior.AllowGet);
         }
