@@ -51,6 +51,7 @@
     <Compile Include="project_admin.cs" />
     <Compile Include="project_dept.cs" />
     <Compile Include="project_emp.cs" />
+    <Compile Include="Project_func.cs" />
     <Compile Include="project_player.cs" />
     <Compile Include="project_type.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

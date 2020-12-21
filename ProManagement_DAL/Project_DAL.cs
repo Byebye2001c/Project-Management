@@ -13,6 +13,11 @@ namespace ProManagement_DAL
         Page<project> Pager = new Page<project>();
         Page<project_player> project_player = new Page<project_player>();
         project InsertPlayer = new project();
+        public class FuncPlayers
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+        }
 
         #region 项目操作
         public Page<project> Getproject(string Name, int PageIndex, int PageSize)
@@ -34,7 +39,7 @@ namespace ProManagement_DAL
             Pager.RowCount = RowList.Count();
             Pager.PageCount = Convert.ToInt32(Math.Ceiling(Pager.RowCount * 1.0 / PageSize));
             Pager.PageIndex = PageIndex;
-            for (int i = 0; i < Pager.PageIndex; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 if (list[i].players.Contains(','))
                 {
@@ -120,7 +125,7 @@ namespace ProManagement_DAL
         //添加项目
         public int PostProject(project P)
         {
-            string sql = $"INSERT INTO dbo.project VALUES ('{P.pname}','{P.tid}','{P.add_time}','{P.end_time_plan}',{P.principal},'{P.players}','{P.file_url}')";
+            string sql = $"INSERT INTO dbo.project VALUES ('{""}','{P.pname}','{P.tid}','{P.add_time}','{P.end_time_plan}',{P.principal},'{P.players}','{P.file_url}')";
             string sqls = $"SELECT * FROM project WHERE pname = '{P.pname}' AND file_url = '{P.file_url}'";
             int Pas = db.ExecuteNonQuery(sql);
             project AddsPlayer = db.GetData<project>(sqls).FirstOrDefault();
@@ -249,11 +254,72 @@ namespace ProManagement_DAL
         //添加员工信息
         public long PostProject_Employees(project_emp P)
         {
-            string sql = $@"INSERT INTO dbo.project_emp VALUES ( '{""}',N'{P.ename}', '{P.birth_date}', N'{P.native}',{(P.gender == true ? 1:0)}, N'{P.graduate_institution}', N'{P.education}', {(P.is_marry == true ? 1:0)}, N'{P.job}','{P.qualified_date}', '{P.dimission_date}', '{P.job_date}', {(P.is_qualified == true ? 1:0)}, {P.phone},{P.dept_Id}, N'{P.ps}', N'{P.id_photo_url}' )";
+            string sql = $@"INSERT INTO dbo.project_emp VALUES (N'{P.ename}', '{P.birth_date}', N'{P.native}',{(P.gender == true ? 1:0)}, N'{P.graduate_institution}', N'{P.education}', {(P.is_marry == true ? 1:0)}, N'{P.job}','{P.qualified_date}', '{P.dimission_date}', '{P.job_date}', {(P.is_qualified == true ? 1:0)}, {P.phone},{P.dept_Id}, N'{P.ps}', N'{P.id_photo_url}' )";
             return db.ExecuteNonQuery(sql);
         }
         #endregion
 
+        #region 项目功能模块
+        //获取添加项目模块的项目名称
+        public string GetProjectPid(int pid)
+        {
+            string sql = $"SELECT pname FROM project WHERE pid = {pid}";
+            project projects = db.GetData<project>(sql).FirstOrDefault();
+            return projects.pname;
+        }
+        #region //获取项目模块添加页面的下拉框 -- 将参与人反填至下拉框
+        public List<dynamic> GetFuncPlayer(int pid)
+        {
+            string sql = $"SELECT * FROM project WHERE pid = {pid}";
 
+            
+            List<dynamic> Newlist = new List<dynamic>();
+            project list = db.GetData<project>(sql).FirstOrDefault();
+
+            if (list.players.Contains(','))
+            {
+                var ids = list.players.Split(',');
+                
+                foreach (var item in ids)
+                {
+                    FuncPlayers funs = new FuncPlayers();
+                    funs.Id = Convert.ToInt32(item);
+                    funs.Name = GetFunCconversion(item);
+                    Newlist.Add(funs);
+                }
+            }
+            else
+            {
+                FuncPlayers funs = new FuncPlayers();
+                funs.Id = Convert.ToInt32(list.players);
+                funs.Name = GetFunCconversion(list.players);
+                Newlist.Add(funs);
+            }
+            return Newlist;
+        }
+        public string GetFunCconversion(string Player)
+        {
+            string sql = $@"SELECT DISTINCT A.eid,B.ename FROM project_player A
+                            JOIN project_emp B ON A.eid = B.eid WHERE A.eid = {Player}";
+            project_emp NewEmp = db.GetData<project_emp>(sql).FirstOrDefault();
+            return NewEmp.ename;
+
+        }
+        #endregion
+        //查询数据库中项目编号是否重复
+        public long GetFunCrepeat(string fno)
+        {
+            string sql = $"SELECT fno FROM project_func WHERE fno = '{fno}'";
+            return db.GetData<Project_func>(sql).Count;
+        }
+        //添加项目模块
+        public long PostFunc(Project_func P)
+        {
+            string sql = $@"INSERT INTO 
+                            project_func(fno, func_name, fun_explain, fun_principal,[start_date],[end_date], func_level, file_url)
+                            VALUES('{P.fno}', '{P.func_name}', '{P.fun_explain}',{P.fun_principal}, '{P.start_dates}', '{P.end_dates}', '{P.func_level}', '{P.file_url}')";
+            return db.ExecuteNonQuery(sql);
+        }
+        #endregion
     }
 }

@@ -69,6 +69,8 @@ namespace ProManagement_UI.Controllers
         {
             return Json(bll.Get_Emps(Name), JsonRequestBehavior.AllowGet);
         }
+
+        #region 分配参与人信息
         //Del修改项目的参与人
         public JsonResult UpDelProjectPlayer(int pid)
         {
@@ -84,6 +86,7 @@ namespace ProManagement_UI.Controllers
         {
             bll.AddlProjectPlayer(P);
         }
+        #endregion
 
         #region 添加项目信息
         public ActionResult AddProject()
@@ -111,6 +114,7 @@ namespace ProManagement_UI.Controllers
             return Json(bll.PostProject(P));
         }
         #endregion
+
         #endregion
 
         #region 员工信息
@@ -157,6 +161,50 @@ namespace ProManagement_UI.Controllers
             return View();
         }
 
+        #endregion
+
+        #region 项目功能模块
+        //获取添加项目模块的项目名称
+        public JsonResult GetProjectPid(int pid)
+        {
+            return Json(bll.GetProjectPid(pid), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ShowPostFunc()
+        {
+            return View();
+        }
+        public ActionResult FunCfileUpLoad()
+        {
+            HttpPostedFileBase Postfile = Request.Files[0];
+
+            string Pathfile = "";
+            if (Postfile.ContentLength > 0)
+            {
+                string fileName = Postfile.FileName;
+                string extName = Path.GetExtension(fileName);
+                string FullfileName = Guid.NewGuid().ToString() + extName;
+                Postfile.SaveAs(Server.MapPath("~/file/") + FullfileName);
+                Pathfile = "/file/" + FullfileName;
+            }
+            return Content(Pathfile);
+        }
+        #endregion
+        #region 项目功能模块
+        //获取项目模块添加页面的下拉框 -- 将参与人反填至下拉框
+        public JsonResult GetFuncPlayer(int pid)
+        {
+            return Json(bll.GetFuncPlayer(pid), JsonRequestBehavior.AllowGet);
+        }
+        //查询数据库中项目编号是否重复
+        public JsonResult GetFunCrepeat(string fno)
+        {
+            return Json(bll.GetFunCrepeat(fno), JsonRequestBehavior.AllowGet);
+        }
+        //添加项目模块
+        public JsonResult PostFunc(Project_func P)
+        {
+            return Json(bll.PostFunc(P),JsonRequestBehavior.AllowGet);
+        }
         #endregion
     }
 }

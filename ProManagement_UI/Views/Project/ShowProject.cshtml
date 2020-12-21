@@ -29,7 +29,8 @@
                 '<td style="text-align:center">参与人</td>'+
                 '<td style="text-align:center">类型</td>'+
                 '<td style="text-align:center">附件</td>'+
-                '<td style="text-align:center">操作</td>'+
+            '<td style="text-align:center">操作</td>' +
+            '<td style="text-align:center">添加功能模块</td>' +
             '</tr>'
         $("#Thead").append(theadhtml);
 
@@ -55,7 +56,8 @@
                         '<td style="text-align:center">' + data.Data[i].players + '</td>' +
                         '<td style="text-align:center">' + data.Data[i].tname + '</td>' +
                     '<td style="text-align:center"><a href="' + data.Data[i].file_url + '">附件</a></td>' +
-                        '<td style="text-align:center"><a href="/Project/PostParticipants?id='+ data.Data[i].pid +'" onclick="GetProject_Participants()">分配参与人</a></td>' +
+                    '<td style="text-align:center"><a href="/Project/PostParticipants?id=' + data.Data[i].pid + '">分配参与人</a></td>' +
+                        '<td style="text-align:center"><a href="/Project/ShowPostFunc?id='+ data.Data[i].pid +'" onclick="GetProject_Participants()">添加功能模块</a></td>' +
                         '</tr>'
                 }
                 $("#tbody").append(html);
@@ -143,6 +145,10 @@
     }
 
     function GetProject_Participants() {
+    }
+
+    function Getfunction() {
+
     }
 
 </script>

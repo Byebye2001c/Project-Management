@@ -86,5 +86,28 @@ namespace ProManagement_BLL
         //{
         //    return dal.Getproject_player(P);
         //}
+
+        #region 项目功能模块
+        //获取添加项目模块的项目名称
+        public string GetProjectPid(int pid)
+        {
+            return dal.GetProjectPid(pid);
+        }
+        //获取项目模块添加页面的下拉框 -- 将参与人反填至下拉框
+        public List<dynamic> GetFuncPlayer(int pid)
+        {
+            return dal.GetFuncPlayer(pid);
+        }
+        //查询数据库中项目编号是否重复
+        public long GetFunCrepeat(string fno)
+        {
+            return dal.GetFunCrepeat(fno);
+        }
+        //添加项目模块
+        public long PostFunc(Project_func P)
+        {
+            return dal.PostFunc(P);
+        }
+        #endregion
     }
 }

@@ -1,0 +1,202 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>PostFunc</title>
+</head>
+<body>
+    <div>
+        <table class="table table-hover" style="width:400px">
+            <tr>
+                <td>
+                    <span id="fullpname"></span>项目名称：之新增功能模块
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" id="FunCNo" placeholder="设置编号" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" class="form-control" id="FunCTitle" placeholder="功能模块标题" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <textarea id="Functextarea" rows="6" cols="23" placeholder="功能模块业务说明"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    选择项目负责人：
+                    <select id="GetPlayes"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    开始时间：
+                    <input type="date" id="Start_Date" class="form-control" />
+                    结束时间：
+                    <input type="date" id="End_Date" class="form-control" />
+                </td>
+            </tr>
+            <tr>
+                <td>优先级：
+                    <select id="Getlevel">
+                        <option value="0">请设置优先级</option>
+                        <option value="1">高</option>
+                        <option value="2">中</option>
+                        <option value="3">低</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:100px;vertical-align:middle">项目附件：</td>
+                <td>
+                    <input type="hidden" name="name" value="" id="file_url" />
+                    <input type="file" name="file_fujian" id="file_fujian" onchange="fileUpLoad()" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="button" class="btn btn-primary" value="保存信息" onclick="Save()"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    var id = location.href.split('=')[1];
+
+    $(document).ready(function () {
+        GetPlayes();
+        GetProjectPid();
+    })
+
+    function GetProjectPid() {
+        $.ajax({
+            url: '/Project/GetProjectPid?pid=' + id,
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                $("#fullpname").html(data);
+            }
+        })
+    }
+
+    function GetPlayes() {
+        $.ajax({
+            url: '/Project/GetFuncPlayer?pid=' + id,
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                $("#GetPlayes").empty();
+                var html = "<option value=0>请选择项目负责人</option>";
+
+                for (var i = 0; i < data.length; i++) {
+                    html += "<option value="+ data[i].Id +">"+ data[i].Name +"</option>";
+                }
+                $("#GetPlayes").append(html);
+
+            }
+        })
+    }
+
+    function fileUpLoad() {
+        var file = $("#file_fujian")[0].files[0];
+
+        var fd = new FormData();
+        fd.append("file_fujian", file);
+
+        $.ajax({
+            url: '/Project/FunCfileUpLoad',
+            type: 'post',
+            data: fd,
+            datatype: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.length > 0) {
+                    alert('上传成功');
+                    $("#file_url").val(data)
+                }
+                else {
+                    alert('上传失败')
+                }
+            }
+        })
+    }
+
+    function Save() {
+
+        if (!$("#FunCTitle").val()) {
+            alert('功能标题不能为空');
+            return;
+        }
+        if (!$("#Functextarea").val()) {
+            alert('业务说明不能为空');
+            return;
+        }
+        if ($("#GetPlayes").val() == 0) {
+            alert('模块负责人不能为空');
+            return;
+        }
+        if ($("#Start_Date").val() > $("#End_Date").val()) {
+            alert('开始日期需小于结束日期');
+            return;
+        }
+
+        $.ajax({
+            url: '/Project/GetFunCrepeat?fno=' + $("#FunCNo").val(),
+            type: 'get',
+            datatype: 'json',
+            success: function (data) {
+                if (data > 0) {
+                    
+                    alert('功能模块编号重复，请修改');
+                    return;
+
+                } else {
+
+                    //在项目编号没有重复的情况下，执行添加项目模块信息
+                    $.ajax({
+                        url: '/Project/PostFunc',
+                        data: {
+                            fno: $("#FunCNo").val(),
+                            func_name: $("#FunCTitle").val(),
+                            fun_explain: $("#Functextarea").val(),
+                            fun_principal: $("#GetPlayes").val(),
+                            start_date: $("#Start_Date").val(),
+                            end_date: $("#End_Date").val(),
+                            func_level: $("#Getlevel").val(),
+                            file_url: $("#file_url").val()
+                        },
+                        type: 'post',
+                        datatype: 'json',
+                        success: function (data) {
+                            if (data.length > 0) {
+                                alert('添加项目模块信息成功');
+                                location.href = '/Project/ShowProject';
+                            }
+                        }
+                    })
+                }
+            }
+
+        })
+        //判断项目模块编号是否重叠
+
+
+    }
+
+
+</script>

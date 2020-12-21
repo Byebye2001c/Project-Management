@@ -190,6 +190,7 @@
     <Content Include="Verify\README.md" />
     <Content Include="Views\Project\Addemployees.cshtml" />
     <Content Include="Views\Project\PostParticipants.cshtml" />
+    <Content Include="Views\Project\ShowPostFunc.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
