@@ -13,10 +13,10 @@
 </head>
 <body>
     <div>
-        <table class="table table-hover" style="width:400px">
+        <table class="table" style="background-color:lightblue;width:900px;position:absolute;margin-left:15%;margin-top:10%;border-radius:20px">
             <tr>
-                <td>
-                    <span id="fullpname"></span>项目名称：之新增功能模块
+                <td colspan="2">
+                    &nbsp;&nbsp;<h4><span style="color:red;width:600px" id="fullpname"></span>&nbsp; 项目名称：之新增功能模块</h4>
                 </td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
             </tr>
             <tr>
                 <td>
-                    <textarea id="Functextarea" rows="6" cols="23" placeholder="功能模块业务说明"></textarea>
+                    <textarea id="Functextarea" rows="6" cols="23" placeholder="功能模块业务说明" style="border-radius:10px"></textarea>
                 </td>
             </tr>
             <tr>
@@ -183,7 +183,7 @@
                         type: 'post',
                         datatype: 'json',
                         success: function (data) {
-                            if (data.length > 0) {
+                            if (data > 0) {
                                 alert('添加项目模块信息成功');
                                 location.href = '/Project/ShowProject';
                             }
